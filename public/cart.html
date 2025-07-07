@@ -1,0 +1,89 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css" />
+  <title>Your Cart</title>
+</head>
+<body>
+  <h2>Your Cart</h2>
+  <div id="cartItems"></div>
+
+  <script>
+    function loadCart() {
+      fetch("/cart")
+        .then(res => {
+          if (!res.ok) throw new Error("Login required");
+          return res.json();
+        })
+        .then(cart => {
+          const div = document.getElementById("cartItems");
+          div.innerHTML = "";
+          let total = 0;
+  
+          cart.forEach(item => {
+            const subtotal = item.price * item.quantity;
+            total += subtotal;
+            
+            
+  
+            const itemDiv = document.createElement("div");
+            itemDiv.innerHTML = `
+              <h3>${item.title}</h3>
+              <img src="${item.image}" width="100"><br>
+              Price: ₹${item.price}<br>
+              Quantity: 
+              <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${item.id}, this.value)">
+              <br>
+              
+              Subtotal: ₹${subtotal }<br>
+              <button onclick="removeFromCart(${item.id})">Remove</button>
+            `;
+            div.appendChild(itemDiv);
+          });
+  
+          div.innerHTML += `
+            GST: ₹${Math.round(total/80)}<br>
+            CHARGES: ₹${Math.round(total/60)}<br>
+            <h3>Total: ₹${Math.round(total + total/80 + total/60)}</h3>
+            <button onclick="goToOrder()">Place Order</button>
+          `;
+        })
+        .catch(err => {
+          alert(err.message);
+          window.location.href = "userLogin.html";
+        });
+    }
+  
+    function updateQuantity(id, qty) {
+      fetch("/cart/update", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, quantity: parseInt(qty) })
+      })
+      .then(res => res.text())
+      .then(msg => {
+        alert(msg);
+        loadCart();
+      });
+    }
+  
+    function removeFromCart(id) {
+      fetch(`/cart/remove/${id}`, { method: "DELETE" })
+        .then(res => res.text())
+        .then(msg => {
+          alert(msg);
+          loadCart();
+        });
+    }
+  
+    function goToOrder() {
+      window.location.href = "order.html";
+    }
+  
+    loadCart();
+  </script>
+  
+</body>
+</html>

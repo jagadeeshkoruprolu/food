@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Orders</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>All Placed Orders</h2>
+  <div id="orders"></div>
+
+  
+
+  <script>
+    fetch("/admin-orders")
+      .then(res => {
+        if (!res.ok) throw new Error("Not authorized");
+        return res.json();
+      })
+      .then(orders => {
+        const container = document.getElementById("orders");
+
+        if (!orders.length) {
+          container.innerHTML = "<p>No orders placed yet.</p>";
+          return;
+        }
+
+        orders.forEach(order => {
+          const div = document.createElement("div");
+          div.innerHTML = `
+            <h3>Order #${order.id} - ${order.user}</h3>
+            <p><strong>Placed At:</strong> ${order.placedAt}</p>
+            <p><strong>Address:</strong> ${order.address}, ${order.location}</p>
+            <p><strong>Mobile:</strong> ${order.mobile}, <strong>Email:</strong> ${order.email}</p>
+            <p><strong>Payment:</strong> ${order.payment}</p>
+            <p><strong>Status:</strong> ${order.status}</p>
+            <h4>Items:</h4>
+            ${(order.items || []).map(i => `
+              <div>${i.title} × ${i.quantity} = ₹${i.price * i.quantity}</div>
+            `).join("")}
+            <P> GST ₹${Math.round(order.total/80)} </P>
+            <strong>Total: ₹${Math.round(order.total + order.total /80 + order.total /60) || 0}</strong>
+            <hr>
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        alert(err.message);
+        window.location.href = "adminLogin.html";
+      });
+  </script>
+</body>
+</html>

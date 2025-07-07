@@ -1,0 +1,278 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #fdfdfd;
+    color: #333;
+    padding-bottom: 50px;
+  }
+  
+  /* Header Styles */
+  header {
+    background-color: #ff3f6c;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+  }
+  
+  header h1 {
+    margin-bottom: 10px;
+  }
+  
+  #auth-links, #user-options {
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  
+  #auth-links a, #user-options a, #user-options button {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  
+  #user-options button {
+    background: transparent;
+    border: 1px solid white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #user-options button:hover {
+    background-color: white;
+    color: #ff3f6c;
+  }
+  
+  /* Menu Title */
+  h2 {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 28px;
+  }
+  
+  /* Items Grid */
+  #items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 0 20px;
+  }
+  
+  #items div {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 250px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+  
+  #items div:hover {
+    transform: translateY(-5px);
+  }
+  
+  #items img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  #items h3 {
+    margin: 10px 0 5px;
+  }
+  
+  #items p {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  input[type="number"] {
+    width: 60px;
+    padding: 6px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Buttons */
+  button {
+    background-color: #ff3f6c;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  button:hover {
+    background-color: #e03050;
+  }
+  
+  /* Form Styles */
+  form {
+    background: white;
+    max-width: 400px;
+    margin: 30px auto;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  form input, form button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 16px;
+    border-radius: 6px;
+  }
+  
+  form input {
+    border: 1px solid #ccc;
+  }
+  
+  /* Admin Item List */
+  #itemList {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 10px;
+  }
+  
+  #itemList div {
+    background: #fff;
+    border: 1px solid #eee;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  
+  /* Cart Styles */
+  #cartItems {
+    max-width: 800px;
+    margin: 30px auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  #cartItems h3 {
+    margin-bottom: 10px;
+  }
+  
+  #cartItems img {
+    width: 100px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 600px) {
+    #items {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    #items div {
+      width: 90%;
+    }
+  
+    header h1 {
+      font-size: 22px;
+    }
+  }
+  
+  /* */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  form input, form select, form button {
+    padding: 8px;
+    margin: 5px;
+    width: 300px;
+  }
+  
+  img {
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  
+  h2, h3 {
+    color: #d43f00;
+  }
+  
+  #cartItems > div,
+#itemList > div {
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+/* price */
+.pr{
+  width: 200px;
+}
+
+/**/
+
+footer {
+  background-color: #222;
+  color: white;
+  padding: 30px 20px;
+  margin-top: 40px;
+  margin-bottom: 0px;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+  margin: 10px;
+}
+
+.footer-section h4 {
+  margin-bottom: 10px;
+  color: #ff3f6c;
+}
+
+.footer-section p, .footer-section ul {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.footer-section ul li a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+}

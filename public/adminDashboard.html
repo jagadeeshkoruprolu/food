@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+  <h2>Admin Dashboard</h2>
+
+  <form onsubmit="addItem(event)">
+    <input type="text" placeholder="Item Title" id="title" required><br><br>
+    <input type="text" placeholder="Image URL" id="image" required><br><br>
+    <input type="number" placeholder="Price" id="price"  class="pr"><br><br>
+    <button type="submit">Add Item</button>
+  </form>
+
+  <h3>Items</h3>
+  <a href="adminOrders.html">View All Orders</a>
+
+  <div id="itemList"></div>
+
+  <script>
+    function loadItems() {
+      fetch('/items')
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById('itemList');
+          container.innerHTML = '';
+          data.forEach(item => {
+            const div = document.createElement('div');
+            div.innerHTML = `
+              <h4>${item.title}</h4>
+              <img src="${item.image}" width="100"><br>
+              <p>₹${item.price}</p>
+              <button onclick="deleteItem(${item.id})">Delete</button>`;
+            container.appendChild(div);
+          });
+        });
+    }
+
+    function addItem(event) {
+      event.preventDefault();
+      const title = document.getElementById("title").value;
+      const price = parseFloat(document.getElementById("price").value);
+      const image = document.getElementById("image").value;
+
+      fetch('/add-item', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, price, image })
+      })
+      .then(res => res.text())
+      .then(msg => {
+        alert(msg);
+        loadItems();
+      });
+    }
+
+    function deleteItem(id) {
+      fetch(`/delete-item/${id}`, { method: "DELETE" })
+        .then(res => res.text())
+        .then(msg => {
+          alert(msg);
+          loadItems();
+        });
+    }
+
+    loadItems();
+  </script>
+</body>
+</html>

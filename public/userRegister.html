@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Register</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <h2>User Register</h2>
+  <form onsubmit="registerUser(event)">
+    <input type="text" name="username" placeholder="Username" required><br><br>
+    <input type="password" name="password" placeholder="Password" required><br><br>
+    <button type="submit">Register</button>
+    <p>Already have an account? <a href="userLogin.html">Login</a></p>
+  </form>
+  
+
+  <script>
+    function registerUser(event) {
+      event.preventDefault();
+      const form = event.target;
+      const data = {
+        username: form.username.value,
+        password: form.password.value
+      };
+      fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.text())
+      .then(msg => {
+        alert(msg);
+        window.location.href = "userLogin.html";
+      });
+    }
+  </script>
+</body>
+</html>

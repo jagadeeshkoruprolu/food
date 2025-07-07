@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flavor Fusion </title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Flavor Fusion</h1>
+    <div id="auth-links">
+      <a href="userLogin.html">Login as User</a> |
+      <a href="userRegister.html">Register</a> |
+      <a href="adminLogin.html">Admin Login</a>
+    </div>
+    <div id="user-options" style="display:none;">
+      <a href="cart.html">View Cart</a> |
+      <button onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <h2>Today Menu</h2>
+  <div id="items"></div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>About Us</h4>
+        <p>We deliver your favorite meals from local restaurants right to your doorstep. Fast, fresh, and delicious!</p>
+      </div>
+  
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>Email: support@FlavorFusion.com</p>
+        <p>Phone: +91-9876543210</p>
+        <p>Location: Hyderabad, India</p>
+      </div>
+  
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Menu</a></li>
+          <li><a href="userLogin.html">User Login</a></li>
+          <li><a href="adminLogin.html">Admin Login</a></li>
+          <li><a href="cart.html">Cart</a></li>
+        </ul>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+      <p>&copy; 2025 Flavor Fusion |  I  ❤️ Food</p>
+    </div>
+  </footer>
+  
+
+  <script>
+    let isLoggedIn = false;
+
+    function checkLoginStatus() {
+      fetch('/cart') // This only works if user is logged in
+        .then(res => {
+          if (res.ok) {
+            isLoggedIn = true;
+            document.getElementById('auth-links').style.display = 'none';
+            document.getElementById('user-options').style.display = 'block';
+          }
+        });
+    }
+
+    function logout() {
+      fetch('/logout')
+        .then(() => {
+          alert("Logged out");
+          window.location.reload();
+        });
+    }
+
+    function loadItems() {
+      fetch("/items")
+        .then(res => res.json())
+        .then(items => {
+          const container = document.getElementById("items");
+          items.forEach(item => {
+            const div = document.createElement("div");
+            div.innerHTML = `
+              <h3>${item.title}</h3>
+              <img src="${item.image}" width="150">
+              <p>₹${item.price}</p>
+              <input type="number" min="1" value="1" id="qty-${item.id}">
+              <button onclick="addToCart(${item.id})">Add to Cart</button>
+              
+            `;
+            container.appendChild(div);
+          });
+        });
+    }
+
+    function addToCart(id) {
+      if (!isLoggedIn) {
+        alert("Please login first.");
+        window.location.href = "userLogin.html";
+        return;
+      }
+
+      const qty = parseInt(document.getElementById(`qty-${id}`).value);
+      fetch("/cart", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, quantity: qty })
+      })
+      .then(res => res.text())
+      //.then(alert);
+    }
+
+    checkLoginStatus();
+    loadItems();
+  </script>
+</body>
+</html>

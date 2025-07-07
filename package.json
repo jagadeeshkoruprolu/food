@@ -1,0 +1,23 @@
+{
+    "name": "zomato-clone",
+    "version": "1.0.0",
+    "description": "A simple Zomato-like food delivery web app using Node.js and JSON storage",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "keywords": [
+        "zomato",
+        "food-delivery",
+        "nodejs",
+        "express",
+        "json"
+    ],
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.20.3",
+        "express": "^4.21.2",
+        "express-session": "^1.18.1"
+    }
+}

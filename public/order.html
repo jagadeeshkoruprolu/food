@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Place Order</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Place Your Order</h2>
+
+  <form id="orderForm">
+    <input type="text" name="address" placeholder="Address" required><br>
+    <input type="text" name="location" placeholder="Location" required><br>
+    <input type="text" name="mobile" placeholder="Mobile Number" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+    <input type="text" name="payment" placeholder="Payment Method (e.g., UPI/COD)" required><br>
+    <button type="submit">Place Order</button>
+  </form>
+
+  <script>
+    async function fetchCartItems() {
+      const res = await fetch("/cart");
+      if (!res.ok) throw new Error("Login required");
+      return await res.json();
+    }
+
+    document.getElementById("orderForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      try {
+        const form = e.target;
+        const formData = {
+          address: form.address.value,
+          location: form.location.value,
+          mobile: form.mobile.value,
+          email: form.email.value,
+          payment: form.payment.value
+        };
+
+        const items = await fetchCartItems();
+        const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        const order = { ...formData, items, total };
+
+        const res = await fetch("/place-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(order)
+        });
+
+        const msg = await res.text();
+        alert(msg);
+        window.location.href = "index.html";
+      } catch (err) {
+        alert(err.message);
+        window.location.href = "userLogin.html";
+      }
+    });
+  </script>
+</body>
+</html>
